@@ -56,7 +56,34 @@ function beep() {
     clickOsc.start(now);
     clickOsc.stop(now + currentSound.clickDuration);
 
-    // --- 2. Гул (если humFreq > 0) ---
+    // --- 2. ШУМОВАЯ ЧАСТЬ (для эффекта реле) ---
+    if (currentSound.clickNoise && currentSound.clickNoise > 0) {
+        // Создаём буфер с белым шумом
+        const bufferSize = audioCtx.sampleRate * 0.02; // 20 мс шума
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            data[i] = Math.random() * 2 - 1;
+        }
+
+        const noiseSourse = audioCtx.createBufferSource();
+        noiseSourse.buffer = buffer;
+
+        // Фильтруем шум, чтобы он был "металлическим", а не просто шипением
+        const noiseFilter = audioCtx.createBiquadFilter();
+        noiseFilter.type = "bandpass";
+        noiseFilter.frequency.value = 1500 + Math.random() * 500  // Частота "звона"
+        noiseFilter.Q.value = 1.0;
+
+        const noiseGain = audioCtx.createGain();
+        noiseGain.gain.setValueAtTime(currentSound.clickNoise, now);
+        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+
+        noiseSourse.connect(noiseFilter).connect(noiseGain).connect(audioCtx.destination);
+        noiseSourse.start(now);
+    }
+
+    // --- 3. Гул (если humFreq > 0) ---
     if (currentSound.humFreq >0) {
         const humOsc = audioCtx.createOscillator();
         const humGain = audioCtx.createGain();

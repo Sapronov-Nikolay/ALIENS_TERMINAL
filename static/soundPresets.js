@@ -8,11 +8,12 @@ const SOUND_PRESETS = {
     // 1 Классика: "Чужой" (1979) Ностромо
     nostromo: {
         name: "Ностромо (Чужой, 1979)",  // Название пункта меню
-        clickFreq: 850,         // Высота щелчка (Гц)
-        clickVariation: 150,    // Разброс высоты (каждый щелчок чуть другой)
-        clickVolume: 0.02,      // Громкость щелчка (0.01 - 0.3)
-        clickDuration: 0.02,    // Длительность щелчка (сек)
+        clickFreq: 600,         // Высота щелчка (Гц)
+        clickVariation: 100,    // Разброс высоты (каждый щелчок чуть другой)
+        clickVolume: 0.08,      // Громкость щелчка (0.01 - 0.3)
+        clickDuration: 0.03,    // Длительность щелчка (сек)
         clickWave: "square",    // Форма волны: square, sawtooth, triangle, sine
+        clickNoise: 0.08,       // Громкость шума (0 - 0.2)
         humFreq: 110,           // Частота фонового гула (Гц)
         humVolume: 0.04,        // Громкость гула (0 - 0.2)
         humDuration: 0.06,      // Длительность гула (сек)
@@ -27,6 +28,7 @@ const SOUND_PRESETS = {
         clickVolume: 0.06,      // Громкость щелчка (0.01 - 0.3)
         clickDuration: 0.015,   // Длительность щелчка (сек)
         clickWave: "triangle",  // Форма волны: square, sawtooth, triangle, sine
+        clickNoise: 0.09,       // Громкость шума (0 - 0.2)
         humFreq: 90,            // Частота фонового гула (Гц)
         humVolume: 0.05,        // Громкость гула (0 - 0.2)
         humDuration: 0.04,      // Длительность гула (сек)
@@ -87,5 +89,20 @@ const SOUND_PRESETS = {
         humVolume: 0,
         humDuration: 0,
         printSpeed: 150
+    },
+
+    // 7. Кастомная версия
+    my_custom_sound: {
+    name: "Мой звук (Кастом)",
+        clickFreq: 800,          // Высота щелчка (Гц)
+        clickVariation: 100,     // Разброс высоты
+        clickVolume: 0.05,       // Громкость щелчка
+        clickDuration: 0.02,     // Длительность (сек)
+        clickWave: "square",     // Форма волны (square, sawtooth, triangle, sine)
+        clickNoise: 0.1,         // Громкость механического шума (эффект реле)
+        humFreq: 120,            // Частота фонового гула (0 = выключить)
+        humVolume: 0.03,         // Громкость гула
+        humDuration: 0.06,       // Длительность гула
+        printSpeed: 100          // Скорость печати (мс на символ)
     }
 };
