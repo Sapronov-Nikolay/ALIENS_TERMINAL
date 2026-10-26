@@ -1,0 +1,13 @@
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Чёрный фон -->
+  <rect width="64" height="64" fill="000000"/>
+
+  <!-- Зелёная рамка (как у монитора) -->
+  <rect x="2" y="2" width="60" height="60" fill="none" stroke="#0d3b2a" stroke-width="2"/>
+
+  <!-- свечение вокруг курсора -->
+  <rect x="20" y="16" width="24" height="32" fill="#4dffb8" opacity="0.2"/>
+
+  <!-- Сам курсор (блок ▌) -->
+  <rect x="22" y="18" width="20" height="28" fill="#4dffb8"/>
+ </svg>

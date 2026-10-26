@@ -1,0 +1,37 @@
+# --- Статика и ассеты (если генерируются или не должны коммититься) ---
+static/dist/
+static/build/
+node_modules/
+
+# --- Логи и скриншоты (важно для автотестов) ---
+logs/
+screenshots/
+reports/
+test-results/
+allure-results/
+
+# --- Виртуальные окружения и кэши ---
+venv/
+.venv/
+__pycache__/
+.pytest_cache/
+
+# --- Maven (если есть Java-часть) ---
+target/
+
+# --- IDE ---
+.idea/
+.vscode/
+
+# --- Секреты и локальные конфиги ---
+.env
+config.local.json
+credentials.json
+
+# --- Временные файлы и ОС ---
+.DS_Store
+Thumbs.db
+*.swp
+*~
+tmp/
+temp/

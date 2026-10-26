@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ALIENS - TERMINAL</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Экран терминалов -->
+    <div id="terminal">
+        <pre id="screen"></pre>
+        <span id="cursor">▊</span>
+    </div>
+
+    <!-- Меню выбора звукового интерфейса -->
+    <div id="preset-menu">
+        <label for="preset-select">🎛️ Тема звука: </label>
+        <select id="preset-select"></select>
+    </div>
+
+    <!-- Индикатор соединения -->
+    <div id="status">CONNECTING...</div>
+
+    <script src="soundPresets.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
