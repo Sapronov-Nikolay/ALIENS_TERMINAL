@@ -18,15 +18,15 @@ clients = set()
 # ========================================================
 #  WebSocket-сервер: принимает подключения и рассылает текст
 # ========================================================
-async def ws_headler(websocket):
+async def ws_hadler(websocket):
     """Обработчик одного подключения из браузера."""
     clients.add(websocket)
     print(f"[WS] Браузер подключился. Всего {len(clients)}")
     try:
-        async for _ in websocket:
-            # Мы не ждём сообщений от браузера - только шлём ему.
-            # Этот цикл нужен, чтобы держать соединение живым (активным).
-            pass
+        async for message in websocket:
+            # ECHO: рассылаем входящее сообщение всем клиентам
+            # (это нужно для автотестов, чтобы отправить текст из браузера)
+            await ws_broadcast(message)
     finally:
         clients.remove(websocket)
         print(f"[WS] Браузер отключился. Всего: {len(clients)}")
@@ -75,7 +75,7 @@ async def main():
     threading.Thread(target=start_http_server, daemon=True).start()
 
     # WebSocket-сервер
-    async with websockets.serve(ws_headler, "127.0.0.1", WS_PORT):
+    async with websockets.serve(ws_hadler, "127.0.0.1", WS_PORT):
         print(f"[WS] Сервер запущен на ws://localhost:{WS_PORT}")
         print(f"[INFO] открой в браузере: http://localhost:{HTTP_PORT}")
         print(f"[INFO] Пиши сюда текст и жми Enter - он отобразится на экране.\n")
