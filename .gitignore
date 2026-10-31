@@ -18,6 +18,7 @@ __pycache__/
 
 # --- Maven (если есть Java-часть) ---
 target/
+java-tests/
 
 # --- IDE ---
 .idea/

@@ -296,25 +296,32 @@ function playCarriageReturn() {
 //  ВИЗУАЛЬНЫЙ ЭФФЕКТ: летящая каретка
 //  Идея: каретка мгновенно встаёт на одну строку с курсором,
 //  а потом «пролетает» по горизонтали за счёт CSS-класса .flying.
-//  Плюс короткая вспышка терминала для акцента.
+//  Плюс короткая вспышка терминала для акцента при одинарном прилетании каретки.
 // ============================================================
-function playCarriageAnimation() {
+function playCarriageAnimation(speed = "normal") {
     const terminal = document.getElementById("terminal");
     const cursor = document.getElementById("cursor");
     const carriage = document.getElementById("carriage");
     const terminalRect = terminal.getBoundingClientRect();
     const cursorRect = cursor.getBoundingClientRect();
 
+    carriage.style.left = (cursorRect.left - terminalRect.left) + "px";
     carriage.style.top = (cursorRect.top - terminalRect.top) + "px";
 
     // Перезапуск CSS-анимации
-    carriage.classList.remove("flying");
-    void carriage.offsetWidth;
-    carriage.classList.add("flying");
+    carriage.classList.remove("flying", "flying-fast");
+    void carriage.offsetWidth;  // Форсируем перезапуск анимации
 
-    // Вспышка терминала
-    terminal.classList.add("flash-effect");
-    setTimeout(() => terminal.classList.remove("flash-effect"), 400);
+    // Включаем нужную скорость
+    if (speed === "fast") {
+        carriage.classList.add("flying-fast");
+    } else {
+        carriage.classList.add("flying");
+
+        // Вспышку экрана оставим только для медленного "start" режима,
+        terminal.classList.add("flash-effect");
+        setTimeout(() => terminal.classList.remove("flash-effect"), 400);
+    }
 }
 
 // ============================================================
@@ -322,9 +329,11 @@ function playCarriageAnimation() {
 //  Скорость берётся из currentSound.printSpeed
 // ============================================================
 async function typeText(text) {
-    if (currentSound.isNostromo) {
-        playCarriageReturn();
-        playCarriageAnimation();
+    // Режим печати для каретки, чтобы она не мигала
+    cursorEl.classList.add("typing");
+    // 1. КАРЕТКА В НАЧАЛЕ СТРОКИ (сработает, если у пресета carriageMode === "start")
+    if (currentSound.carriageMode === "start") {
+        playCarriageAnimation("normal");
         await new Promise((r) => setTimeout(r, 250));
     }
 
@@ -332,10 +341,21 @@ async function typeText(text) {
         screenEl.textContent += ch;
 
         // Писк только на буквенных символах, не на пробелах
-        if (ch !== " " && ch !== "\n") beep();
+        if (ch !== " " && ch !== "\n") {
+            // 2. КАРЕТКА НА КАЖДЫЙ СИМВОЛ (если carriageMode === "every")
+            if (currentSound.carriageMode === "every") {
+                playCarriageAnimation("fast");
+            }
+        
+            // 3. ЗВУК (всегда зависит от beep() и isNostromo)
+            beep();
+        }
         await new Promise((r) => setTimeout(r, currentSound.printSpeed));
     }
     screenEl.textContent += "\n";
+
+    // Печать завершена: каретка снова мигает
+    cursorEl.classList.remove("typing");
 }
 
 
