@@ -27,6 +27,13 @@ async def ws_hadler(websocket):
             # ECHO: рассылаем входящее сообщение всем клиентам
             # (это нужно для автотестов, чтобы отправить текст из браузера)
             await ws_broadcast(message)
+
+    # --- НОВЫЙ БЛОК: Ловим ошибки при резком закрытии браузера ---
+    except websockets.exceptions.ConnectionClosed:
+        pass # Браузер закрылся штатно
+    except ConnectionResetError:
+        pass
+
     finally:
         clients.remove(websocket)
         print(f"[WS] Браузер отключился. Всего: {len(clients)}")
