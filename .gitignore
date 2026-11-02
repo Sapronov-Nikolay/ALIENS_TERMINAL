@@ -15,9 +15,13 @@ venv/
 .venv/
 __pycache__/
 .pytest_cache/
+java-tests/.gitignore
+java-tests/src/main/
 
 # --- Maven (если есть Java-часть) ---
-target/
+terget/
+.allure/
+.mvn/
 
 # --- IDE ---
 .idea/
